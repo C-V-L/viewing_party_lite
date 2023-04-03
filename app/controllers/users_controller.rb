@@ -3,12 +3,14 @@ class UsersController < ApplicationController
   def new; end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
+    user = user_params
+    user[:email] = user[:email].downcase
+    @user = User.new(user)
+    if params[:password] == params[:password_confirmation] && @user.save
       flash[:notice] = "#{@user.name} has been created!"
       redirect_to user_path(@user)
     else
-      flash[:notice] = "Cannot create! Please fill out all fields"
+      flash[:notice] = "Cannot create! Please fill out all fields and make sure passwords match"
       redirect_to register_path
     end
   end
@@ -21,6 +23,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.permit(:name, :email)
+    params.permit(:name, :email, :password)
   end
 end

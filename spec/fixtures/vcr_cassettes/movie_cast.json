@@ -1690,6 +1690,76 @@
         }
       },
       "recorded_at": "Fri, 24 Mar 2023 22:33:20 GMT"
+    },
+    {
+      "request": {
+        "method": "get",
+        "uri": "https://api.themoviedb.org/3/movie/238/credits?api_key",
+        "body": {
+          "encoding": "US-ASCII",
+          "string": ""
+        },
+        "headers": {
+          "User-Agent": [
+            "Faraday v2.7.4"
+          ],
+          "Accept-Encoding": [
+            "gzip;q=1.0,deflate;q=0.6,identity;q=0.3"
+          ],
+          "Accept": [
+            "*/*"
+          ]
+        }
+      },
+      "response": {
+        "status": {
+          "code": 401,
+          "message": "Unauthorized"
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json; charset=utf-8"
+          ],
+          "Transfer-Encoding": [
+            "chunked"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Date": [
+            "Mon, 03 Apr 2023 20:48:35 GMT"
+          ],
+          "Server": [
+            "openresty"
+          ],
+          "Cache-Control": [
+            "public, max-age=300"
+          ],
+          "X-Cache": [
+            "Error from cloudfront"
+          ],
+          "Via": [
+            "1.1 3dc4c80cd959e984309833cac8f5a630.cloudfront.net (CloudFront)"
+          ],
+          "X-Amz-Cf-Pop": [
+            "DEN52-P2"
+          ],
+          "Alt-Svc": [
+            "h3=\":443\"; ma=86400"
+          ],
+          "X-Amz-Cf-Id": [
+            "G2s1Np4lv4NsSCfF3xfphFUclpAczx3oTSgMfC0d_EiWZhO18lvzqg=="
+          ],
+          "Vary": [
+            "Origin"
+          ]
+        },
+        "body": {
+          "encoding": "UTF-8",
+          "string": "{\"status_code\":7,\"status_message\":\"Invalid API key: You must be granted a valid key.\",\"success\":false}\n"
+        }
+      },
+      "recorded_at": "Mon, 03 Apr 2023 20:48:35 GMT"
     }
   ],
   "recorded_with": "VCR 6.1.0"
