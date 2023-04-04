@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     @user = User.new(user)
     if @user.save
       flash[:notice] = "#{@user.name} has been created!"
+      session[:user_id] = @user.id
       redirect_to user_path(@user)
     else
       flash[:notice] = "Cannot create! Please fill out all fields and make sure passwords match"
@@ -28,6 +29,12 @@ class UsersController < ApplicationController
       flash[:error] = "Sorry, your credentials are bad."
       render :login_form
     end
+  end
+
+  def logout
+    session.delete(:user_id)
+    flash[:logout] = "You have been logged out!"
+    redirect_to root_path
   end
 
   def show

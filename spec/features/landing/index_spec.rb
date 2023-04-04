@@ -3,13 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Landing Page Index' do
-  before(:each) do
-    @user_1 = User.create!(name: 'Joe', email: 'joe@email.com')
-    @user_2 = User.create!(name: 'Bob', email: 'bob@email.com')
-    @user_3 = User.create!(name: 'Dan', email: 'dan@email.com')
-    visit root_path
-  end
+  
   context 'As a user when I visit the landing page' do
+    before(:each) do
+      @user_1 = User.create!(name: 'Joe', email: 'joe@email.com', password: 'password')
+      @user_2 = User.create!(name: 'Bob', email: 'bob@email.com', password: 'password')
+      @user_3 = User.create!(name: 'Dan', email: 'dan@email.com', password: 'password')
+      visit root_path
+    end
+
     it 'I see the title of the application' do
       expect(page).to have_content('Viewing Party')
     end
@@ -32,6 +34,36 @@ RSpec.describe 'Landing Page Index' do
         click_link('Home')
       end
       expect(current_path).to eq(root_path)
+    end
+  end
+  
+  describe 'authorization challenges' do
+    describe 'as a logged in user' do
+      before :each do
+        @user = User.create!(name: "funbucket13", email: "fb@fb.com", password: "test")
+        visit root_path
+        click_on "I already have an account"    
+        fill_in :email, with: @user.email
+        fill_in :password, with: @user.password
+        click_on "Log In"
+    
+      end
+      it 'I cannot see the login or register links' do
+        expect(current_path).to eq(root_path)
+        expect(page).to have_content("Welcome, #{@user.name}")
+        expect(page).to have_content("Log Out")
+        expect(page).to_not have_content("I already have an account")
+        expect(page).to_not have_content("Register")
+      end
+
+      it 'I can log out' do
+        click_link "Log Out"
+        expect(current_path).to eq(root_path)
+        expect(page).to have_content("You have been logged out!")
+        expect(page).to have_content("I already have an account")
+        expect(page).to have_content("Register")
+        expect(page).to_not have_content("Log Out")
+      end
     end
   end
 end
