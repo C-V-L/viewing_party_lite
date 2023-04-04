@@ -12,3 +12,10 @@
     <% end %>
   </ul>
 </div>
+
+<% if current_user %>
+  <%= link_to "Log Out" %>
+<% else %>
+  <%= link_to "Register as a User", new_user_path %>
+  <%= link_to "I already have an account", login_path %>
+<% end %>

@@ -3,11 +3,11 @@ Rails.application.routes.draw do
   root "landing#index"
   get "register", to: "users#new"
   post "register", to: "users#create"
-  
+  get '/login', to: 'users#login_form'
+  post '/login', to: 'users#login'
+
   resources :users, only: [:show, :new, :create] do
     get "/discover", to: "discover#index"
-    # post "/register", to: "users#login"
-
     resources :movies, only: [:show, :index]
   end
 

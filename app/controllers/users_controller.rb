@@ -6,12 +6,27 @@ class UsersController < ApplicationController
     user = user_params
     user[:email] = user[:email].downcase
     @user = User.new(user)
-    if params[:password] == params[:password_confirmation] && @user.save
+    if @user.save
       flash[:notice] = "#{@user.name} has been created!"
       redirect_to user_path(@user)
     else
       flash[:notice] = "Cannot create! Please fill out all fields and make sure passwords match"
       redirect_to register_path
+    end
+  end
+
+  def login_form
+  end
+
+  def login
+    user = User.find_by(email: params[:email])
+    if user.authenticate(params[:password])
+      session[:user_id] = user.id
+      flash[:success] = "Welcome, #{user.name}!"
+      redirect_to root_path
+    else
+      flash[:error] = "Sorry, your credentials are bad."
+      render :login_form
     end
   end
 
@@ -23,6 +38,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.permit(:name, :email, :password)
+    params.permit(:name, :email, :password, :password_confirmation)
   end
 end
