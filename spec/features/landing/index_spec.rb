@@ -76,10 +76,15 @@ RSpec.describe 'Landing Page Index' do
         end
       end
 
-      it 'If I am not logged in, I do not see any other user info' do
-        click_link "Log Out"
-        expect(page).to_not have_content(@user2.email)
-        expect(page).to_not have_content(@user3.email)
+    end
+
+    describe 'as a visitor' do
+      before :each do
+        @user = User.create!(name: "funbucket13", email: "fb@fb.com", password: "test")
+      end
+      it 'If I try to visit a dashboard I remain on the landing page' do
+        visit user_path(@user)
+        expect(current_path).to eq(root_path)
       end
     end
   end
