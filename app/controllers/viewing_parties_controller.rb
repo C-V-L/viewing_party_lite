@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 class ViewingPartiesController < ApplicationController
   def new
-    @user = User.find(params[:user_id])
-    @facade = MovieFacade.new(id: params[:movie_id])
-    @other_users = User.other_users(@user.id)
+    if current_user.nil?
+      flash[:error] = "You must be logged in to view this page"
+      redirect_to "/users/#{params[:user_id]}/movies/#{params[:movie_id]}"
+    else
+      @user = User.find(params[:user_id])
+      @facade = MovieFacade.new(id: params[:movie_id])
+      @other_users = User.other_users(@user.id)
+    end
   end
 
   def create
